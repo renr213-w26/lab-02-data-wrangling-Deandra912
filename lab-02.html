@@ -141,7 +141,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 WI            72</code></pre>
 </div>
 </div>
-<p>State with the highest number of counties is Illinois with 102 counties, while state with the lowest number of counties is Wisconsin with 72 counties. ### Question 2</p>
+<p>State with the highest number of counties is Illinois with 102 counties, while state with the lowest number of counties is Wisconsin with 72 counties. </p>
+</section>
+<section id="question-2" class="level3">
+<h3 class="anchored" data-anchor-id="question-2">Question 2</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>midwest <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(county, <span class="at">name =</span> <span class="st">"n_states"</span>) <span class="sc">|&gt;</span></span>
@@ -160,7 +163,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="question-3" class="level3">
 <h3 class="anchored" data-anchor-id="question-3">Question 3</h3>
-<div style="page-break-after: always;"></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>midwest <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(popdensity <span class="sc">&gt;</span> <span class="dv">25000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(county, state, popdensity, poptotal, area) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(popdensity))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 5
+  county    state popdensity poptotal  area
+  &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;
+1 COOK      IL        88018.  5105067 0.058
+2 MILWAUKEE WI        63952.   959275 0.015
+3 WAYNE     MI        60334.  2111687 0.035
+4 CUYAHOGA  OH        54313.  1412140 0.026
+5 DU PAGE   IL        39083.   781666 0.02 
+6 MARION    IN        34659.   797159 0.023
+7 HAMILTON  OH        34649.   866228 0.025
+8 FRANKLIN  OH        28278.   961437 0.034
+9 MACOMB    MI        25621.   717400 0.028</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>midwest <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(popdensity <span class="sc">==</span> <span class="fu">max</span>(popdensity)) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(county, state, popdensity, poptotal, area)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  county state popdensity poptotal  area
+  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;
+1 COOK   IL        88018.  5105067 0.058</code></pre>
+</div>
+</div>
+<p>There are nine counties with population density above 25000 as can be seen on table above in part (a) and county with highest population density is Cook County in Illinois with 88018.4 person per unit area. </p>
 </section>
 <section id="question-5" class="level3">
 <h3 class="anchored" data-anchor-id="question-5">Question 5</h3>

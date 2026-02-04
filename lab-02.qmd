@@ -28,6 +28,7 @@ midwest |>
 ```
 State with the highest number of counties is Illinois with 102 counties, while state with the lowest number of counties is Wisconsin with 72 counties.
 \newpage
+
 ### Question 2
 ```{r}
 midwest |>
@@ -40,7 +41,19 @@ in the dataset.
 \newpage
 
 ### Question 3
+```{r}
+midwest |>
+  filter(popdensity > 25000) |>
+  select(county, state, popdensity, poptotal, area) |>
+  arrange(desc(popdensity))
+```
 
+```{r}
+midwest |>
+  filter(popdensity == max(popdensity)) |>
+  select(county, state, popdensity, poptotal, area)
+```
+There are nine counties with population density above 25000 as can be seen on table above in part (a) and county with highest population density is Cook County in Illinois with 88018.4 person per unit area.
 \newpage
 
 ### Question 5
