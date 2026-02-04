@@ -154,7 +154,17 @@ Based on table in part (b), Illinois is the most populous state in Midwestern wi
 \newpage
 
 ### Question 8
+```{r}
+state_poverty <-
+  midwest |>
+  group_by(state) |>
+  summarize(
+    mean_percbelowpoverty = mean(percbelowpoverty))
 
+state_poverty |>
+  arrange(mean_percbelowpoverty)
+```
+Indiana has the lowest average percentage below poverty across Midwestern counties with about 10.32%. While Michigan has the highest average percentage below poverty with about 14.22%.
 \newpage
 
 ## Part 2
