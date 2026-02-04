@@ -5,9 +5,7 @@ date: "February 4, 2026"
 format: 
   html: default # for speed
   pdf: default # for final output
-
 ---
-
 
 ```{r}
 #| eval: true
@@ -16,13 +14,19 @@ format:
 library(tidyverse)
 ```
 
-
 # Questions
 
 ## Part 1
-
+```{r}
+?midwest
+```
 ### Question 1
-
+```{r}
+midwest |>
+  count(state, name = "n_counties") |>
+  arrange(desc(n_counties))
+```
+State with the highest number of counties is Illinois with 102 counties, while state with the lowest number of counties is Wisconsin with 72 counties.
 
 \newpage
 
@@ -31,6 +35,7 @@ library(tidyverse)
 \newpage
 
 ### Question 3
+
 \newpage
 
 ### Question 5
@@ -51,6 +56,4 @@ library(tidyverse)
 
 ## Part 2
 
-
 ### Question 9
-
