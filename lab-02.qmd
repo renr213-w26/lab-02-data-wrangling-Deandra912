@@ -56,6 +56,17 @@ midwest |>
 There are nine counties with population density above 25000 as can be seen on table above in part (a) and county with highest population density is Cook County in Illinois with 88018.4 person per unit area.
 \newpage
 
+### Question 4
+```{r}
+midwest |>
+  summarize(
+    median_density = median(popdensity),
+    q1_density = quantile(popdensity, 0.25),
+    q3_density = quantile(popdensity, 0.75)
+  )
+```
+The distribution of population density of counties is unimodal and extremely right-skewed. A typical Midwestern county has a population density of 1156.208 people per unit area. The middle 50% of the counties have population densities between 622.4074 and 2330 people per unit area.
+
 ### Question 5
 
 \newpage
