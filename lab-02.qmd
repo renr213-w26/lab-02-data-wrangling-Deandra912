@@ -130,7 +130,27 @@ midwest |>
 \newpage
 
 ### Question 7
+Part (a) : Total population of each state in Midwestern
+```{r}
+state_population <-
+  midwest |>
+  group_by(state) |>
+  summarize(total_population = sum(poptotal))
 
+state_population |>
+  arrange(desc(total_population))
+```
+
+Part (b) : Proportion of the total population in each state compared to total population in Midwest
+```{r}
+state_population |>
+  mutate(prop_population = total_population / sum(total_population)) |>
+  arrange(desc(prop_population))
+```
+
+Part (c) : Most and least populous state in Midwestern
+
+Based on table in part (b), Illinois is the most populous state in Midwestern with about 27%. In contrast, Wisconsin is the least populous state with about 12% of the Midwest population.
 \newpage
 
 ### Question 8
