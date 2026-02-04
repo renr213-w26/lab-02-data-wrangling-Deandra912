@@ -170,3 +170,66 @@ Indiana has the lowest average percentage below poverty across Midwestern counti
 ## Part 2
 
 ### Question 9
+```{r}
+df <- tibble(
+  var_1 = c(10, 20, 30, 40, 50),
+  var_2 = c("Pizza", "Burger", "Pizza", "Pizza", "Burger"),
+  var_3 = c("Apple", "Apple", "Pear", "Pear", "Banana")
+)
+
+df
+```
+(a)
+```{r}
+df |>
+  arrange(var_2)
+```
+arrange() sorts the rows of the data frame by the values of var_2. In this case, the data is sorted alphabetically by var_2 (Burger first, then Pizza). The values do not change, only the order of the rows changes.
+
+(b)
+```{r}
+df |>
+  group_by(var_2)
+```
+The function group_by() organizes the data into groups based on a variable. Here, the data is grouped by var_2 which means there will be one group for Burger and one group for Pizza. Unlike arrange, grouping does not change the order, but it changes how future operations behave.
+
+(c)
+```{r}
+df |>
+  group_by(var_2) |>
+  summarize(mean_var_1 = mean(var_1))
+```
+This pipeline first groups the data by var_2 and then uses summarize() to calculate the mean of var_1 for each group (Burger and Pizza). 
+
+(d)
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1))
+```
+This pipeline groups the data by both var_2 and var_3, meaning it creates groups for each combination of Pizza-Burger and Apple-Pear-Banana. Then, it calculates the mean of var_1 for each combination.
+
+(e)
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1), .groups = "drop")
+```
+This pipeline does the same calculation as part (d), but there is argument .groups = "drop" which removes the grouping structure after summarizing. The output is an ungrouped tibble instead of a grouped one.
+
+(f)
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1), .groups = "drop")
+```
+This first pipeline groups the data by both var_2 and var_3, then summarizes each group by calculating the mean of var_1. The result contains one row per group combination, showing the average value of var_1 for each category pair. 
+
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  mutate(mean_var_1 = mean(var_1))
+```
+This second pipeline groups the data by var_2 and var_3, then uses mutate() to add new column mean_var_1 which contains the mean of var_1 for each group. Unlike summarize(), mutate() does nit reduce the number of rows, so the original dataset remains the same size.
+
+In conclusion, the main difference is that summarize() produces one row per group, while mutate() keeps all orginal and repeats the group mean for each row.
