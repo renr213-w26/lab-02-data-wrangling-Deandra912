@@ -1,13 +1,11 @@
 ---
 title: "Lab 2 - Data wrangling"
-author: "John Q. Student"
-date: "June 24, 1497"
+author: "Deandra Rasheesa Maheswari"
+date: "February 4, 2026"
 format: 
   html: default # for speed
   pdf: default # for final output
-
 ---
-
 
 ```{r}
 #| eval: true
@@ -16,41 +14,223 @@ format:
 library(tidyverse)
 ```
 
-
 # Questions
 
 ## Part 1
-
+```{r}
+?midwest
+```
 ### Question 1
-
-
+```{r}
+midwest |>
+  count(state, name = "n_counties") |>
+  arrange(desc(n_counties))
+```
+State with the highest number of counties is Illinois with 102 counties, while state with the lowest number of counties is Wisconsin with 72 counties.
 \newpage
 
 ### Question 2
-
+```{r}
+midwest |>
+  count(county, name = "n_states") |>
+  filter(n_states == 5) |>
+  arrange(desc(n_states))
+```
+Counties with the names Crawford, Jackson and Monroe appear in all five states 
+in the dataset.
 \newpage
 
 ### Question 3
+Part (a)
+```{r}
+midwest |>
+  filter(popdensity > 25000) |>
+  select(county, state, popdensity, poptotal, area) |>
+  arrange(desc(popdensity))
+```
+Part (b)
+```{r}
+midwest |>
+  filter(popdensity == max(popdensity)) |>
+  select(county, state, popdensity, poptotal, area)
+```
+There are nine counties with population density above 25000 as can be seen on table above in part (a) and county with highest population density is Cook County in Illinois with 88018.4 person per unit area.
+\newpage
+
+### Question 4
+```{r}
+midwest |>
+  summarize(
+    median_density = median(popdensity),
+    q1_density = quantile(popdensity, 0.25),
+    q3_density = quantile(popdensity, 0.75)
+  )
+```
+The distribution of population density of counties is unimodal and extremely right-skewed. A typical Midwestern county has a population density of 1156.208 people per unit area. The middle 50% of the counties have population densities between 622.4074 and 2330 people per unit area.
 \newpage
 
 ### Question 5
-
+```{r}
+midwest |>
+  mutate(metro = if_else(inmetro == 1, "Yes", "No")) |>
+  group_by(state) |>
+  summarize(propotion_urban = mean(metro == "Yes"))
+```
+Ohio has the highest proportion of urban (metro) counties with about 0.45 (45%) of its counties classified as metro areas. On the other hand, Illinois and Wisconsin have the lowest proportion of urban counties among the states in this dataset.
 \newpage
 
 ### Question 6
-
+Part (a) : Orange box
+```{r}
+midwest |>
+  filter(percollege < 10, percbelowpoverty > 45) |>
+  select(county, state, percbelowpoverty, percollege)
+```
+Part (b) : Red box
+```{r}
+midwest |>
+  filter(percollege > 40, percbelowpoverty < 20) |>
+  select(county, state, percbelowpoverty, percollege)
+```
+Part (c) : Orange and red box
+```{r}
+midwest |>
+  filter(
+    (percollege < 10 & percbelowpoverty > 45) |
+    (percollege >40 & percbelowpoverty < 20)) |>
+  select(county, state, percbelowpoverty, percollege)
+```
+Part (d) : Potential outlier
+```{r}
+midwest |>
+  mutate(potential_outlier = if_else(
+    (percollege < 10 & percbelowpoverty > 45) |
+    (percollege > 40 & percbelowpoverty < 20),
+    "Yes", "No")) |>
+  select(county, state, percbelowpoverty, percollege, potential_outlier) |>
+  arrange(potential_outlier)
+```
+Part (e)
+```{r}
+midwest |>
+  mutate(potential_outlier = if_else(
+    (percollege < 10 & percbelowpoverty > 45) |
+    (percollege > 40 & percbelowpoverty < 20),
+    "Yes", "No")) |>
+  ggplot(aes(x = percollege, y = percbelowpoverty, color = potential_outlier)) +
+  geom_point() +
+  labs(
+    title = "Percentage with a college degree versus poverty rate",
+    subtitle = "by State in the Midwest",
+    x = "% college educated",
+    y = "% below poverty",
+    color = "Potential outlier"
+  ) +
+  scale_color_viridis_d()
+```
 \newpage
 
 ### Question 7
+Part (a) : Total population of each state in Midwestern
+```{r}
+state_population <-
+  midwest |>
+  group_by(state) |>
+  summarize(total_population = sum(poptotal))
 
+state_population |>
+  arrange(desc(total_population))
+```
+
+Part (b) : Proportion of the total population in each state compared to total population in Midwest
+```{r}
+state_population |>
+  mutate(prop_population = total_population / sum(total_population)) |>
+  arrange(desc(prop_population))
+```
+
+Part (c) : Most and least populous state in Midwestern
+
+Based on table in part (b), Illinois is the most populous state in Midwestern with about 27%. In contrast, Wisconsin is the least populous state with about 12% of the Midwest population.
 \newpage
 
 ### Question 8
+```{r}
+state_poverty <-
+  midwest |>
+  group_by(state) |>
+  summarize(
+    mean_percbelowpoverty = mean(percbelowpoverty))
 
+state_poverty |>
+  arrange(mean_percbelowpoverty)
+```
+Indiana has the lowest average percentage below poverty across Midwestern counties with about 10.32%. While Michigan has the highest average percentage below poverty with about 14.22%.
 \newpage
 
 ## Part 2
 
-
 ### Question 9
+```{r}
+df <- tibble(
+  var_1 = c(10, 20, 30, 40, 50),
+  var_2 = c("Pizza", "Burger", "Pizza", "Pizza", "Burger"),
+  var_3 = c("Apple", "Apple", "Pear", "Pear", "Banana")
+)
 
+df
+```
+Part (a)
+```{r}
+df |>
+  arrange(var_2)
+```
+arrange() sorts the rows of the data frame by the values of var_2. In this case, the data is sorted alphabetically by var_2 (Burger first, then Pizza). The values do not change, only the order of the rows changes.
+
+Part (b)
+```{r}
+df |>
+  group_by(var_2)
+```
+The function group_by() organizes the data into groups based on a variable. Here, the data is grouped by var_2 which means there will be one group for Burger and one group for Pizza. Unlike arrange, grouping does not change the order, but it changes how future operations behave.
+
+Part (c)
+```{r}
+df |>
+  group_by(var_2) |>
+  summarize(mean_var_1 = mean(var_1))
+```
+This pipeline first groups the data by var_2 and then uses summarize() to calculate the mean of var_1 for each group (Burger and Pizza). 
+
+Part (d)
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1))
+```
+This pipeline groups the data by both var_2 and var_3, meaning it creates groups for each combination of Pizza-Burger and Apple-Pear-Banana. Then, it calculates the mean of var_1 for each combination.
+
+Part (e)
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1), .groups = "drop")
+```
+This pipeline does the same calculation as part (d), but there is argument .groups = "drop" which removes the grouping structure after summarizing. The output is an ungrouped tibble instead of a grouped one.
+
+Part (f)
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1), .groups = "drop")
+```
+This first pipeline groups the data by both var_2 and var_3, then summarizes each group by calculating the mean of var_1. The result contains one row per group combination, showing the average value of var_1 for each category pair. 
+
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  mutate(mean_var_1 = mean(var_1))
+```
+This second pipeline groups the data by var_2 and var_3, then uses mutate() to add new column mean_var_1 which contains the mean of var_1 for each group. Unlike summarize(), mutate() does nit reduce the number of rows, so the original dataset remains the same size.
+
+In conclusion, the main difference is that summarize() produces one row per group, while mutate() keeps all orginal and repeats the group mean for each row.
