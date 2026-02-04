@@ -212,11 +212,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 1          1156.       622.       2330</code></pre>
 </div>
 </div>
-<p>The distribution of population density of counties is unimodal and extremely right-skewed. A typical Midwestern county has a population density of 1156.208 people per unit area. The middle 50% of the counties have population densities between 622.4074 and 2330 people per unit area.</p>
+<p>The distribution of population density of counties is unimodal and extremely right-skewed. A typical Midwestern county has a population density of 1156.208 people per unit area. The middle 50% of the counties have population densities between 622.4074 and 2330 people per unit area. </p>
 </section>
 <section id="question-5" class="level3">
 <h3 class="anchored" data-anchor-id="question-5">Question 5</h3>
-<div style="page-break-after: always;"></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>midwest <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metro =</span> <span class="fu">if_else</span>(inmetro <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">propotion_urban =</span> <span class="fu">mean</span>(metro <span class="sc">==</span> <span class="st">"Yes"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  state propotion_urban
+  &lt;chr&gt;           &lt;dbl&gt;
+1 IL              0.275
+2 IN              0.402
+3 MI              0.301
+4 OH              0.455
+5 WI              0.278</code></pre>
+</div>
+</div>
+<p>Ohio has the highest proportion of urban (metro) counties with about 0.45 (45%) of its counties classified as metro areas. On the other hand, Illinois and Wisconsin have the lowest proportion of urban counties among the states in this dataset. </p>
 </section>
 <section id="question-6" class="level3">
 <h3 class="anchored" data-anchor-id="question-6">Question 6</h3>

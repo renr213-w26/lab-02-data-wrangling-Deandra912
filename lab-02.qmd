@@ -66,9 +66,16 @@ midwest |>
   )
 ```
 The distribution of population density of counties is unimodal and extremely right-skewed. A typical Midwestern county has a population density of 1156.208 people per unit area. The middle 50% of the counties have population densities between 622.4074 and 2330 people per unit area.
+\newpage
 
 ### Question 5
-
+```{r}
+midwest |>
+  mutate(metro = if_else(inmetro == 1, "Yes", "No")) |>
+  group_by(state) |>
+  summarize(propotion_urban = mean(metro == "Yes"))
+```
+Ohio has the highest proportion of urban (metro) counties with about 0.45 (45%) of its counties classified as metro areas. On the other hand, Illinois and Wisconsin have the lowest proportion of urban counties among the states in this dataset.
 \newpage
 
 ### Question 6
