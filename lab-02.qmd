@@ -27,11 +27,16 @@ midwest |>
   arrange(desc(n_counties))
 ```
 State with the highest number of counties is Illinois with 102 counties, while state with the lowest number of counties is Wisconsin with 72 counties.
-
 \newpage
-
 ### Question 2
-
+```{r}
+midwest |>
+  count(county, name = "n_states") |>
+  filter(n_states == 5) |>
+  arrange(desc(n_states))
+```
+Counties with the names Crawford, Jackson and Monroe appear in all five states 
+in the dataset.
 \newpage
 
 ### Question 3
